@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irrigation Advisory and Sensor Data</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Smart Sugarcane Irrigation</h1>
+    <p>AI & Sensor Based Irrigation Advisory System</p>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Farm Dashboard</a>
+        <a href="advisory-sensors.html">Advisory & Sensor Data</a>
+        <a href="registration.html">Farmer Registration</a>
+    </nav>
+</header>
+
+<section>
+
+    <h2>Enter Sensor Data</h2>
+
+    <p>Enter the current sensor readings to analyze the farm conditions.</p>
+
+    <p>Soil Moisture (%)</p>
+    <input type="number" id="soilMoisture" min="0" max="100">
+    <br><br>
+
+    <p>Temperature (°C)</p>
+    <input type="number" id="temperature">
+    <br><br>
+
+    <p>Humidity (%)</p>
+    <input type="number" id="humidity" min="0" max="100">
+    <br><br>
+
+    <p>Rainfall Forecast</p>
+    <select id="rainForecast">
+        <option value="0">No Rainfall</option>
+        <option value="1">Rain Expected</option>
+    </select>
+
+    <br><br>
+
+    <button onclick="analyzeSensors()">Analyze Sensor Data</button>
+
+    <div id="sensorAnalysis" class="result">
+        Enter the readings and press the button.
+    </div>
+
+</section>
+
+<section>
+
+    <div class="sensor-summary">
+
+        <h2>Sensor Analysis</h2>
+
+        <p>The system checks the entered sensor values and displays their status.</p>
+
+        <div id="sensorTable"></div>
+
+    </div>
+
+</section>
+
+<section>
+
+    <h2>Irrigation Advisory</h2>
+
+    <div class="advisory-box">
+
+        <p>Enter the required soil moisture level.</p>
+
+        <p>Required Soil Moisture (%)</p>
+
+        <input type="number" id="requiredMoisture" min="0" max="100" placeholder="For example, 40">
+
+        <br><br>
+
+        <button onclick="calculateIrrigation()">Get Advisory</button>
+
+        <div id="advisoryResult" class="result">
+            Your recommendation will appear here.
+        </div>
+
+    </div>
+
+</section>
+
+<section>
+
+    <h2>How it Works</h2>
+
+    <ol>
+        <li>Enter the sensor values.</li>
+        <li>Check the soil moisture, temperature and humidity.</li>
+        <li>Consider the rainfall forecast.</li>
+        <li>Compare current and required moisture.</li>
+        <li>Show the irrigation recommendation.</li>
+    </ol>
+
+</section>
+
+<footer>
+    <p>Smart Sugarcane Irrigation | Web Development Laboratory</p>
+    <p>K. J. Somaiya School of Engineering</p>
+</footer>
+
+<script>
+
+function analyzeSensors()
+{
+    var moistureText=document.getElementById("soilMoisture").value;
+    var temperatureText=document.getElementById("temperature").value;
+    var humidityText=document.getElementById("humidity").value;
+    var rainForecast=document.getElementById("rainForecast").value;
+
+    if(moistureText==""||temperatureText==""||humidityText=="")
+    {
+        alert("Please enter all sensor values.");
+        return;
+    }
+
+    var moisture=Number(moistureText);
+    var temperature=Number(temperatureText);
+    var humidity=Number(humidityText);
+
+    if(moisture<0||moisture>100||humidity<0||humidity>100)
+    {
+        alert("Soil moisture and humidity must be between 0 and 100.");
+        return;
+    }
+
+    var moistureStatus;
+
+    if(moisture<30)
+    {
+        moistureStatus="Critical";
+    }
+    else if(moisture<=50)
+    {
+        moistureStatus="Moderate";
+    }
+    else
+    {
+        moistureStatus="High";
+    }
+
+    var temperatureStatus;
+
+    if(temperature>35)
+    {
+        temperatureStatus="High";
+    }
+    else
+    {
+        temperatureStatus="Normal";
+    }
+
+    var humidityStatus;
+
+    if(humidity<40)
+    {
+        humidityStatus="Low";
+    }
+    else
+    {
+        humidityStatus="Normal";
+    }
+
+    var rainStatus;
+
+    if(rainForecast==1)
+    {
+        rainStatus="Rain Expected";
+    }
+    else
+    {
+        rainStatus="No Rainfall";
+    }
+
+    localStorage.setItem("sensor_moisture",moisture);
+    localStorage.setItem("sensor_temp",temperature);
+    localStorage.setItem("sensor_humidity",humidity);
+    localStorage.setItem("sensor_rain",rainStatus);
+
+    document.getElementById("sensorAnalysis").innerHTML="Sensor data analyzed and saved successfully. View it on the Farm Dashboard!";
+
+    document.getElementById("sensorTable").innerHTML=`
+        <table>
+            <thead>
+                <tr>
+                    <th>Sensor</th>
+                    <th>Reading</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Soil Moisture Sensor</td>
+                    <td>${moisture}%</td>
+                    <td>${moistureStatus}</td>
+                </tr>
+
+                <tr>
+                    <td>Temperature Sensor</td>
+                    <td>${temperature} °C</td>
+                    <td>${temperatureStatus}</td>
+                </tr>
+
+                <tr>
+                    <td>Humidity Sensor</td>
+                    <td>${humidity}%</td>
+                    <td>${humidityStatus}</td>
+                </tr>
+
+                <tr>
+                    <td>Rainfall Sensor</td>
+                    <td>-</td>
+                    <td>${rainStatus}</td>
+                </tr>
+            </tbody>
+        </table>`;
+}
+
+function calculateIrrigation()
+{
+    var currentText=document.getElementById("soilMoisture").value;
+    var requiredText=document.getElementById("requiredMoisture").value;
+
+    var currentMoisture=Number(currentText);
+    var requiredMoisture=Number(requiredText);
+    var rainForecast=Number(document.getElementById("rainForecast").value);
+
+    var result=document.getElementById("advisoryResult");
+
+    if(currentText==""||requiredText=="")
+    {
+        result.innerHTML="Please enter the current and required soil moisture values.";
+        return;
+    }
+
+    if(currentMoisture<0||currentMoisture>100||requiredMoisture<0||requiredMoisture>100)
+    {
+        result.innerHTML="Soil moisture must be between 0 and 100.";
+        return;
+    }
+
+    if(rainForecast==1)
+    {
+        result.innerHTML="Rain is expected. Consider postponing irrigation if conditions allow.<br>Pump status: OFF";
+    }
+    else if(currentMoisture>=requiredMoisture)
+    {
+        result.innerHTML="No irrigation indicated. Soil moisture meets the required level.<br>Pump status: OFF";
+    }
+    else
+    {
+        var deficit=requiredMoisture-currentMoisture;
+
+        if(currentMoisture<30)
+        {
+            result.innerHTML="Irrigation may be needed soon.<br>Moisture deficit: "+deficit+"%<br>Pump status: ON";
+        }
+        else
+        {
+            result.innerHTML="Irrigation may be needed.<br>Moisture deficit: "+deficit+"%<br>Pump status: ON";
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>

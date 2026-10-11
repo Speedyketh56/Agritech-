@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Smart Sugarcane Irrigation</h1>
+    <p>AI & Sensor Based Irrigation Advisory System</p>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Farm Dashboard</a>
+        <a href="advisory-sensors.html">Advisory & Sensor Data</a>
+        <a href="registration.html">Farmer Registration</a>
+    </nav>
+</header>
+<section>
+    <h2>Farm Dashboard</h2>
+    <div class="cards">
+        <div class="card">
+            <h3>Crop</h3>
+            <p>Sugarcane</p>
+        </div>
+        <div class="card">
+            <h3>Critical Moisture</h3>
+            <p>30%</p>
+        </div>
+        <div class="card">
+            <h3>Monitoring</h3>
+            <p>Sensor Based</p>
+        </div>
+    </div>
+</section>
+<section>
+    <h2>Latest Sensor Data</h2>
+    <div id="latestSensorData" class="info-box">
+        <p>No sensor data recorded yet. Please enter sensor values first.</p>
+    </div>
+</section>
+<section>
+    <h2>Farmer Information</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Plot ID</th>
+                <th>Farmer Name</th>
+                <th>Soil Moisture</th>
+                <th>Temperature</th>
+                <th>Weather</th>
+                <th>Irrigation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>AGR-1001</td>
+                <td>Kaushik</td>
+                <td>35%</td>
+                <td>32°C</td>
+                <td>Sunny</td>
+                <td class="status-monitor">Monitor</td>
+            </tr>
+            <tr>
+                <td>AGR-1002</td>
+                <td>Amey</td>
+                <td>28%</td>
+                <td>36°C</td>
+                <td>Cloudy</td>
+                <td class="status-required">Required</td>
+            </tr>
+            <tr>
+                <td>AGR-1003</td>
+                <td>Aniketh</td>
+                <td>60%</td>
+                <td>29°C</td>
+                <td>Rainy</td>
+                <td class="status-not-required">Not Required</td>
+            </tr>
+	    <tr>
+                <td>AGR-1004</td>
+                <td>bhagyesh</td>
+                <td>50%</td>
+                <td>19°C</td>
+                <td>Rainy</td>
+                <td class="status-not-required">Not Required</td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+<section>
+    <h2>Crop Stages</h2>
+    <dl>
+        <dt><b>Germination</b></dt>
+        <dd>Initial growth of the crop.</dd>
+        <dt><b>Tillering</b></dt>
+        <dd>Growth of stems and branches.</dd>
+        <dt><b>Grand Growth</b></dt>
+        <dd>Rapid growth of the sugarcane plant.</dd>
+        <dt><b>Maturity</b></dt>
+        <dd>Fully grown crop ready for harvesting.</dd>
+    </dl>
+</section>
+<footer>
+    <p>Smart Sugarcane Irrigation | Web Development Laboratory</p>
+    <p>K. J. Somaiya School of Engineering</p>
+</footer>
+<div id="cornerAd" class="corner-ad">
+    <span class="ad-close" onclick="closeAd()">&times;</span>
+    <p>SALE!</p>
+    <p>Only $10</p>
+</div>
+<script>
+window.onload=function()
+{
+    var moisture=localStorage.getItem("sensor_moisture");
+    var temp=localStorage.getItem("sensor_temp");
+    var humidity=localStorage.getItem("sensor_humidity");
+    var rain=localStorage.getItem("sensor_rain");
+    if(moisture&&temp&&humidity&&rain)
+    {
+        document.getElementById("latestSensorData").innerHTML=
+            "<p><b>Soil Moisture:</b> "+moisture+"%</p>"+
+            "<p><b>Temperature:</b> "+temp+"°C</p>"+
+            "<p><b>Humidity:</b> "+humidity+"%</p>"+
+            "<p><b>Rainfall Forecast:</b> "+rain+"</p>";
+    }
+};
+function closeAd()
+{
+    if(document.getElementById("cornerAd"))
+    {
+        document.getElementById("cornerAd").style.display="none";
+    }
+}
+</script>
+</body>
+</html>

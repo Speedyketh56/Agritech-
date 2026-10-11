@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Smart Sugarcane Irrigation</h1>
+    <p>AI & Sensor Based Irrigation Advisory System</p>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Farm Dashboard</a>
+        <a href="advisory-sensors.html">Advisory & Sensor Data</a>
+        <a href="registration.html">Farmer Registration</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <form id="farmerform">
+
+        <fieldset>
+            <legend>Farmer Personal Info</legend>
+
+            <p>Name</p>
+            <input type="text" id="name" name="name">
+            <br><br>
+
+            <p>Phone Number</p>
+            <input type="text" id="mobile" name="mobile">
+            <br><br>
+
+            <p>Email ID</p>
+            <input type="text" id="email" name="email">
+        </fieldset>
+
+        <br>
+
+        <p>Plot ID</p>
+        <input type="text" id="plotid" name="plotid">
+        <br><br>
+
+        <p>Village</p>
+        <input type="text" id="village" name="village">
+        <br><br>
+
+        <p>Growth Stage</p>
+
+        <div class="radio-group">
+            <input type="radio" name="growth" value="Initial"> Initial
+            <input type="radio" name="growth" value="Middle"> Middle
+            <input type="radio" name="growth" value="Final"> Final
+        </div>
+
+        <br>
+
+        <p>Soil Type</p>
+
+        <div class="radio-group">
+            <input type="radio" name="soil" value="Black"> Black
+            <input type="radio" name="soil" value="Alluvial"> Alluvial
+            <input type="radio" name="soil" value="Red"> Red
+            <input type="radio" name="soil" value="Other"> Other
+        </div>
+
+        <br>
+
+        <p>Irrigation Type</p>
+
+        <div class="radio-group">
+            <input type="radio" name="irrigation" value="Flood"> Flood
+            <input type="radio" name="irrigation" value="Furrow"> Furrow
+            <input type="radio" name="irrigation" value="Drip"> Drip
+            <input type="radio" name="irrigation" value="Other"> Other
+        </div>
+
+        <br>
+
+        <p>Date</p>
+        <input type="date" id="date" name="date">
+        <br><br>
+
+        <p>Upload Image of Farm</p>
+        <input type="file" id="farmPhoto" name="farmPhoto" accept="image/*">
+        <br><br><br>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+</div>
+
+<footer>
+    <p>Smart Sugarcane Irrigation | Web Development Laboratory</p>
+    <p>K. J. Somaiya School of Engineering</p>
+</footer>
+
+<script>
+
+document.getElementById("farmerform").onsubmit=function(event)
+{
+    event.preventDefault();
+
+    var name=document.getElementById("name").value;
+    var mobile=document.getElementById("mobile").value;
+    var email=document.getElementById("email").value;
+    var plotid=document.getElementById("plotid").value;
+    var village=document.getElementById("village").value;
+    var date=document.getElementById("date").value;
+
+    var growth=document.querySelector('input[name="growth"]:checked');
+    var soil=document.querySelector('input[name="soil"]:checked');
+    var irrigation=document.querySelector('input[name="irrigation"]:checked');
+
+    if(name==""||mobile==""||email==""||plotid==""||village==""||date=="")
+    {
+        alert("Please fill all the required details.");
+        return false;
+    }
+
+    if(!/^[A-Za-z ]+$/.test(name))
+    {
+        alert("Name can only contain alphabets.");
+        return false;
+    }
+
+    if(!/^[A-Za-z ]+$/.test(village))
+    {
+        alert("Village can only contain alphabets.");
+        return false;
+    }
+
+    if(!/^[0-9]{10}$/.test(mobile))
+    {
+        alert("Mobile number must contain exactly 10 digits.");
+        return false;
+    }
+
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    {
+        alert("Please enter a valid email address.");
+        return false;
+    }
+
+    if(growth==null||soil==null||irrigation==null)
+    {
+        alert("Please select all the required options.");
+        return false;
+    }
+
+    var details=
+        "Registration Details Submitted:\n\n"+
+        "Name: "+name+"\n"+
+        "Phone Number: "+mobile+"\n"+
+        "Email: "+email+"\n"+
+        "Plot ID: "+plotid+"\n"+
+        "Village: "+village+"\n"+
+        "Growth Stage: "+growth.value+"\n"+
+        "Soil Type: "+soil.value+"\n"+
+        "Irrigation Type: "+irrigation.value+"\n"+
+        "Date: "+date;
+
+    alert(details);
+
+    return true;
+};
+
+</script>
+
+</body>
+</html>
